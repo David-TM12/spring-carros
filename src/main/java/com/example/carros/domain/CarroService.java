@@ -36,8 +36,10 @@ public class CarroService {
 		return rep.findByTipo(tipo).stream().map(c -> CarroDTO.create(c)).collect(Collectors.toList());
 	}
 
-	public Carro insert(Carro carro) {
-		return rep.save(carro);
+	public CarroDTO insert(Carro carro) {
+		Assert.isNull(carro.getId(), "Não é possível inserir o registro");
+
+		return CarroDTO.create(rep.save(carro));
 		
 	}
 

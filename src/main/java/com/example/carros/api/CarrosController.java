@@ -1,5 +1,6 @@
 package com.example.carros.api;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.carros.domain.Carro;
 import com.example.carros.domain.CarroService;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 @RestController
@@ -61,10 +63,18 @@ public class CarrosController {
 	}
 	
 	@PostMapping
-	public String post(@RequestBody Carro carro) {
-		Carro c = service.insert(carro);
-		
-		return "Carro salvo com sucesso: " + c.getId();
+	public ResponseEntity post(@RequestBody Carro carro) {
+		try{
+			CarroDTO c = service.insert(carro);
+			URI location = getUri(c.getId());
+			return ResponseEntity.created(location).build();
+		}catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	private URI getUri(Long id){
+		return ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(id).toUri();
 	}
 	
 	@PutMapping("/{id}")
