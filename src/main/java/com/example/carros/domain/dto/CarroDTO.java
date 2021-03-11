@@ -1,7 +1,7 @@
 package com.example.carros.domain.dto;
 
 import com.example.carros.domain.Carro;
-import lombok.Data;
+import lombok.*;
 import org.modelmapper.ModelMapper;
 
 import javax.persistence.Id;
