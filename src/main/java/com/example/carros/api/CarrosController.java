@@ -64,13 +64,11 @@ public class CarrosController {
 	
 	@PostMapping
 	public ResponseEntity post(@RequestBody Carro carro) {
-		try{
+
 			CarroDTO c = service.insert(carro);
 			URI location = getUri(c.getId());
 			return ResponseEntity.created(location).build();
-		}catch (Exception e) {
-			return ResponseEntity.badRequest().build();
-		}
+
 	}
 
 	private URI getUri(Long id){
@@ -92,10 +90,8 @@ public class CarrosController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity del(@PathVariable("id") long id) {
 		
-		boolean ok = service.deleteCar(id);
-		return ok ?
-				ResponseEntity.ok().build() :
-				ResponseEntity.notFound().build();
+		service.deleteCar(id);
+		return ResponseEntity.ok().build();
 	}
 	
 }
